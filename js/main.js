@@ -28,8 +28,7 @@ for (var i = 0; i < 6; i++) {
 
 var publishedPhotos = [];
 
-var getArray = function () {
-    
+var getArrayObj = function () {
     for (var j = 0; j < 25; j++) {
         publishedPhotos.push({
             url: 'photos/' + (j + 1) + '.jpg',
