@@ -32,7 +32,7 @@ for (var j = 0; j < 25; j++) {
     url: 'photos/' + (j + 1) + '.jpg',
     likes: randomInteger(15, 200),
     comment: comments[randomInteger(0, comments.length - 1)]
-});
+  });
 }
 
 var picturesElement = document.querySelector('.pictures');
@@ -45,10 +45,10 @@ var renderWizard = function (wizard) {
   var wizardElement = pictureTemplate.cloneNode(true);
   wizardElement.href = wizard.url;
   wizardElement.querySelector('.picture__img').src = wizard.url;
-  wizardElement.querySelector('.picture__comments').textContent = randomInteger(1, 10);;
+  wizardElement.querySelector('.picture__comments').textContent = randomInteger(1, 10);
   wizardElement.querySelector('.picture__likes').textContent = wizard.likes;
   return wizardElement;
-}; 
+};
 
 var fragment = document.createDocumentFragment();
 for (var p = 0; p < publishedPhotos.length; p++) {
