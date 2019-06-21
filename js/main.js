@@ -18,22 +18,31 @@ var messages = [
 var authorNames = ['Артем', 'Алексей', 'Василий', 'Аня', 'Настя', 'Коля'];
 
 var comments = [];
-for (var i = 0; i < 6; i++) {
-  comments.push({
-    avatar: 'mig/avatar-' + (i + 1) + '.svg',
-    message: messages[i],
-    name: authorNames[i]
-  });
-}
+var getCommentsPhotos = function () {
+  for (var i = 0; i < 6; i++) {
+    comments.push({
+      avatar: 'mig/avatar-' + (i + 1) + '.svg',
+      message: messages[i],
+      name: authorNames[i]
+    });
+  }
+  return comments;
+};
+comments = getCommentsPhotos();
 
 var publishedPhotos = [];
-for (var j = 0; j < 25; j++) {
-  publishedPhotos.push({
-    url: 'photos/' + (j + 1) + '.jpg',
-    likes: randomInteger(15, 200),
-    comment: comments[randomInteger(0, comments.length - 1)]
-  });
-}
+var getArrayPhotos = function () {
+  for (var j = 0; j < 25; j++) {
+    publishedPhotos.push({
+      url: 'photos/' + (j + 1) + '.jpg',
+      likes: randomInteger(15, 200),
+      comment: comments[randomInteger(0, comments.length - 1)]
+    });
+  }
+  return publishedPhotos;
+};
+publishedPhotos = getArrayPhotos();
+
 
 var picturesElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture')
@@ -41,18 +50,22 @@ var pictureTemplate = document.querySelector('#picture')
   .querySelector('.picture');
 
 
-var renderWizard = function (wizard) {
-  var wizardElement = pictureTemplate.cloneNode(true);
-  wizardElement.href = wizard.url;
-  wizardElement.querySelector('.picture__img').src = wizard.url;
-  wizardElement.querySelector('.picture__comments').textContent = randomInteger(1, 10);
-  wizardElement.querySelector('.picture__likes').textContent = wizard.likes;
-  return wizardElement;
+var renderWizard = function (photo) {
+  var photoElement = pictureTemplate.cloneNode(true);
+  photoElement.href = photo.url;
+  photoElement.querySelector('.picture__img').src = photo.url;
+  photoElement.querySelector('.picture__comments').textContent = randomInteger(1, 10);
+  photoElement.querySelector('.picture__likes').textContent = photo.likes;
+  return photoElement;
 };
 
-var fragment = document.createDocumentFragment();
-for (var p = 0; p < publishedPhotos.length; p++) {
-  fragment.appendChild(renderWizard(publishedPhotos[p]));
-}
 
-picturesElement.appendChild(fragment);
+var appendPhotoElement = function () {
+  var fragment = document.createDocumentFragment();
+  for (var p = 0; p < publishedPhotos.length; p++) {
+    fragment.appendChild(renderWizard(publishedPhotos[p]));
+  }
+  return fragment;
+};
+
+picturesElement.appendChild(appendPhotoElement());
