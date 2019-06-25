@@ -106,22 +106,22 @@ function clickControl(control) {
   });
 }
 
-var controlMin = document.querySelector('.scale__control--smaller'); 
+var controlMin = document.querySelector('.scale__control--smaller');
 var controlMax = document.querySelector('.scale__control--bigger');
 var controlValue = document.querySelector('.scale__control--value');
-var imgPreview = document.querySelector('.img-upload__preview');
+var imgUploadPreview = document.querySelector('.img-upload__preview');
 var STEP = 25;
 
 controlMin.addEventListener('click', function () {
-  if (parseInt(controlValue.value) > 25) {
-    controlValue.value = (parseInt(controlValue.value) - STEP) + '%';
-    imgPreview.style.transform = 'scale(' + (parseInt(controlValue.value) / 100) + ')';
+  if (parseInt(controlValue.value, 10) > 25) {
+    controlValue.value = (parseInt(controlValue.value, 10) - STEP) + '%';
+    imgUploadPreview.style.transform = 'scale(' + (parseInt(controlValue.value, 10) / 100) + ')';
   }
 });
 
 controlMax.addEventListener('click', function () {
-  if (parseInt(controlValue.value) < 100) {
-    controlValue.value = (parseInt(controlValue.value) + STEP) + '%';
-    imgPreview.style.transform = 'scale(' + (parseInt(controlValue.value) / 100) + ')';
+  if (parseInt(controlValue.value, 10) < 100) {
+    controlValue.value = (parseInt(controlValue.value, 10) + STEP) + '%';
+    imgUploadPreview.style.transform = 'scale(' + (parseInt(controlValue.value, 10) / 100) + ')';
   }
 });
