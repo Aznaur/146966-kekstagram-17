@@ -69,3 +69,14 @@ var appendPhotoElement = function () {
 };
 
 picturesElement.appendChild(appendPhotoElement());
+
+var uploadFile = document.querySelector('#upload-file');
+var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
+uploadFile.addEventListener('change', function () {
+  imgUploadOverlay.classList.remove('hidden');
+});
+
+imgUploadCancel.addEventListener('click', function () {
+  imgUploadOverlay.classList.add('hidden');
+});
