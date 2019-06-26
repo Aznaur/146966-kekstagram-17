@@ -86,7 +86,6 @@ var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
 
 
 for (var i = 0; i < effectsRadio.length; i++) {
-  effectsRadio[i].innerHTML = effectsRadio[i].dataset.filter;
   clickControl(effectsRadio[i]);
 }
 
@@ -112,16 +111,30 @@ var controlValue = document.querySelector('.scale__control--value');
 var imgUploadPreview = document.querySelector('.img-upload__preview');
 var STEP = 25;
 
-controlMin.addEventListener('click', function () {
-  if (parseInt(controlValue.value, 10) > 25) {
-    controlValue.value = (parseInt(controlValue.value, 10) - STEP) + '%';
-    imgUploadPreview.style.transform = 'scale(' + (parseInt(controlValue.value, 10) / 100) + ')';
+
+// Не смог сообразить как объединить эти две функции, сделал по отдельности
+var scaleOut = function () {
+  var presentValue = parseInt(controlValue.getAttribute('value'), 10);
+  if (presentValue > 25) {
+    presentValue = presentValue - STEP;
+    controlValue.setAttribute('value', presentValue + '%');
+    imgUploadPreview.style.transform = 'scale(' + (presentValue / 100) + ')';
   }
+};
+
+var scaleUp = function () {
+  var presentValue = parseInt(controlValue.getAttribute('value'), 10);
+  if (presentValue < 100) {
+    presentValue = presentValue + STEP;
+    controlValue.setAttribute('value', presentValue + '%');
+    imgUploadPreview.style.transform = 'scale(' + (presentValue / 100) + ')';
+  }
+};
+
+controlMin.addEventListener('click', function () {
+  scaleOut();
 });
 
 controlMax.addEventListener('click', function () {
-  if (parseInt(controlValue.value, 10) < 100) {
-    controlValue.value = (parseInt(controlValue.value, 10) + STEP) + '%';
-    imgUploadPreview.style.transform = 'scale(' + (parseInt(controlValue.value, 10) / 100) + ')';
-  }
+  scaleUp();
 });
