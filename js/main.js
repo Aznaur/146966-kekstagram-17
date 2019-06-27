@@ -69,3 +69,72 @@ var appendPhotoElement = function () {
 };
 
 picturesElement.appendChild(appendPhotoElement());
+
+var uploadFile = document.querySelector('#upload-file');
+var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
+uploadFile.addEventListener('change', function () {
+  imgUploadOverlay.classList.remove('hidden');
+});
+
+imgUploadCancel.addEventListener('click', function () {
+  imgUploadOverlay.classList.add('hidden');
+});
+
+var effectsRadio = imgUploadOverlay.querySelectorAll('.effects__radio');
+var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
+
+
+for (var i = 0; i < effectsRadio.length; i++) {
+  clickControl(effectsRadio[i]);
+}
+
+function toggleFilter(control) {
+  for (var j = 0; j < effectsRadio.length; j++) {
+    imgPreview.classList.remove(effectsRadio[j].dataset.filter);
+  }
+
+  if (imgPreview) {
+    imgPreview.classList.add(control.dataset.filter);
+  }
+}
+
+function clickControl(control) {
+  control.addEventListener('click', function () {
+    toggleFilter(control);
+  });
+}
+
+var controlMin = document.querySelector('.scale__control--smaller');
+var controlMax = document.querySelector('.scale__control--bigger');
+var controlValue = document.querySelector('.scale__control--value');
+var imgUploadPreview = document.querySelector('.img-upload__preview');
+var STEP = 25;
+
+
+// Не смог сообразить как объединить эти две функции, сделал по отдельности
+var scaleOut = function () {
+  var presentValue = parseInt(controlValue.getAttribute('value'), 10);
+  if (presentValue > 25) {
+    presentValue = presentValue - STEP;
+    controlValue.setAttribute('value', presentValue + '%');
+    imgUploadPreview.style.transform = 'scale(' + (presentValue / 100) + ')';
+  }
+};
+
+var scaleUp = function () {
+  var presentValue = parseInt(controlValue.getAttribute('value'), 10);
+  if (presentValue < 100) {
+    presentValue = presentValue + STEP;
+    controlValue.setAttribute('value', presentValue + '%');
+    imgUploadPreview.style.transform = 'scale(' + (presentValue / 100) + ')';
+  }
+};
+
+controlMin.addEventListener('click', function () {
+  scaleOut();
+});
+
+controlMax.addEventListener('click', function () {
+  scaleUp();
+});
