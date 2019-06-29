@@ -1,4 +1,5 @@
 'use strict';
+var ESC_KEYCODE = 27;
 
 function randomInteger(min, max) {
   var rand = Math.floor(min + Math.random() * (max - min + 1));
@@ -73,12 +74,34 @@ picturesElement.appendChild(appendPhotoElement());
 var uploadFile = document.querySelector('#upload-file');
 var imgUploadOverlay = document.querySelector('.img-upload__overlay');
 var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
-uploadFile.addEventListener('change', function () {
+var comm = document.querySelector('.text__description');
+
+var onImgUploadEscPress = function (evt) {
+  if (comm === document.activeElement) {
+    return evt;
+  } else if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+    return evt;
+  }
+};
+
+var openPopup = function () {
   imgUploadOverlay.classList.remove('hidden');
+  document.addEventListener('keydown', onImgUploadEscPress);
+};
+
+var closePopup = function () {
+  imgUploadOverlay.classList.add('hidden');
+  document.removeEventListener('keydown', onImgUploadEscPress);
+  uploadFile.value = '';
+};
+
+uploadFile.addEventListener('change', function () {
+  openPopup();
 });
 
 imgUploadCancel.addEventListener('click', function () {
-  imgUploadOverlay.classList.add('hidden');
+  closePopup();
 });
 
 var effectsRadio = imgUploadOverlay.querySelectorAll('.effects__radio');
@@ -138,3 +161,4 @@ controlMin.addEventListener('click', function () {
 controlMax.addEventListener('click', function () {
   scaleUp();
 });
+
