@@ -104,16 +104,24 @@ imgUploadCancel.addEventListener('click', function () {
   closePopup();
 });
 
+
+
+
 var effectsRadio = imgUploadOverlay.querySelectorAll('.effects__radio');
 var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
-
-
+var effectControl = document.querySelector('.effect-level__pin');
+var effectControlBar = document.querySelector('.effect-level__depth');
+var result;
+var effectValue = document.querySelector('.effect-level__value');
+var controlPin = document.querySelector('.img-upload__effect-level');
+controlPin.style.display = 'none';
 for (var i = 0; i < effectsRadio.length; i++) {
   clickControl(effectsRadio[i]);
 }
 
 function toggleFilter(control) {
   for (var j = 0; j < effectsRadio.length; j++) {
+    imgPreview.style.filter = '';
     imgPreview.classList.remove(effectsRadio[j].dataset.filter);
   }
 
@@ -124,7 +132,29 @@ function toggleFilter(control) {
 
 function clickControl(control) {
   control.addEventListener('click', function () {
+    effectControl.style.left = '100px';
+    effectControlBar.style.width = '100px';
+    effectValue.setAttribute('value', 22);
+
     toggleFilter(control);
+    if (imgPreview.className === 'img-upload__preview effects__preview--chrome') {
+      controlPin.style.display = 'block';
+      imgPreview.style.filter = "grayscale(" + +effectValue.getAttribute('value') / 100 + ")";
+    } else if (imgPreview.className === 'img-upload__preview effects__preview--sepia') {
+      controlPin.style.display = 'block';
+      imgPreview.style.filter = "sepia(" + +effectValue.getAttribute('value') / 100 + ")";
+    } else if (imgPreview.className === 'img-upload__preview effects__preview--marvin') {
+      controlPin.style.display = 'block';
+      imgPreview.style.filter = "invert(" + +effectValue.getAttribute('value') + "%" + ")";
+    } else if (imgPreview.className === 'img-upload__preview effects__preview--phobos') {
+      controlPin.style.display = 'block';
+      imgPreview.style.filter = "blur(" + +effectValue.getAttribute('value') / 100 * 3 + "px" + ")";
+    } else if (imgPreview.className === 'img-upload__preview effects__preview--heat') {
+      controlPin.style.display = 'block';
+      imgPreview.style.filter = "brightness(" + +effectValue.getAttribute('value') / 100 * 2 + ")";
+    } else if (imgPreview.className === 'img-upload__preview effects__preview--none') {
+      controlPin.style.display = 'none';
+    }
   });
 }
 
@@ -134,8 +164,6 @@ var controlValue = document.querySelector('.scale__control--value');
 var imgUploadPreview = document.querySelector('.img-upload__preview');
 var STEP = 25;
 
-
-// Не смог сообразить как объединить эти две функции, сделал по отдельности
 var scaleOut = function () {
   var presentValue = parseInt(controlValue.getAttribute('value'), 10);
   if (presentValue > 25) {
@@ -162,3 +190,53 @@ controlMax.addEventListener('click', function () {
   scaleUp();
 });
 
+
+
+
+effectControl.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+    };
+    result = effectControl.offsetLeft - shift.x;
+    if (result >= 0 && result <= 453) {
+          effectControl.style.left = (effectControl.offsetLeft - shift.x) + 'px';
+          effectControlBar.style.width = effectControl.style.left;
+          effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / 453));
+          
+          if (imgPreview.className === 'img-upload__preview effects__preview--chrome') {
+            imgPreview.style.filter = "grayscale(" + (result / 453).toFixed(1) + ")";
+          } else if (imgPreview.className === 'img-upload__preview effects__preview--sepia') {
+            imgPreview.style.filter = "sepia(" + (result / 453).toFixed(1) + ")";
+          } else if (imgPreview.className === 'img-upload__preview effects__preview--marvin') {
+            imgPreview.style.filter = "invert(" + (result / 453 * 100).toFixed(0) + "%" + ")";
+          } else if (imgPreview.className === 'img-upload__preview effects__preview--phobos') {
+            imgPreview.style.filter = "blur(" + (result / 453).toFixed(2) * 3 + "px" + ")";
+          } else if (imgPreview.className === 'img-upload__preview effects__preview--heat') {
+            imgPreview.style.filter = "brightness(" + (result / 453).toFixed(2) * 3 + ")";
+          } 
+    }
+
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
