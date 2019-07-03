@@ -103,7 +103,7 @@ uploadFile.addEventListener('change', function () {
 imgUploadCancel.addEventListener('click', function () {
   closePopup();
 });
-
+ 
 
 
 
