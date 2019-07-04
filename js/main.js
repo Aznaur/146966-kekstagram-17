@@ -134,25 +134,25 @@ function clickControl(control) {
   control.addEventListener('click', function () {
     effectControl.style.left = '100px';
     effectControlBar.style.width = '100px';
-    effectValue.setAttribute('value', 22);
-
+    effectValue.setAttribute('value', 20);
+    var getAttributeEffectValue = +effectValue.getAttribute('value');
     toggleFilter(control);
-    if (imgPreview.className === 'img-upload__preview effects__preview--chrome') {
+    if (imgPreview.classList.contains('effects__preview--chrome')) {
       controlPin.style.display = 'block';
-      imgPreview.style.filter = "grayscale(" + +effectValue.getAttribute('value') / 100 + ")";
-    } else if (imgPreview.className === 'img-upload__preview effects__preview--sepia') {
+      imgPreview.style.filter = "grayscale(" + getAttributeEffectValue / 100 + ")";
+    } else if (imgPreview.classList.contains('effects__preview--sepia')) {
       controlPin.style.display = 'block';
-      imgPreview.style.filter = "sepia(" + +effectValue.getAttribute('value') / 100 + ")";
-    } else if (imgPreview.className === 'img-upload__preview effects__preview--marvin') {
+      imgPreview.style.filter = "sepia(" + getAttributeEffectValue / 100 + ")";
+    } else if (imgPreview.classList.contains('effects__preview--marvin')) {
       controlPin.style.display = 'block';
-      imgPreview.style.filter = "invert(" + +effectValue.getAttribute('value') + "%" + ")";
-    } else if (imgPreview.className === 'img-upload__preview effects__preview--phobos') {
+      imgPreview.style.filter = "invert(" + getAttributeEffectValue + "%" + ")";
+    } else if (imgPreview.classList.contains('effects__preview--phobos')) {
       controlPin.style.display = 'block';
-      imgPreview.style.filter = "blur(" + +effectValue.getAttribute('value') / 100 * 3 + "px" + ")";
-    } else if (imgPreview.className === 'img-upload__preview effects__preview--heat') {
+      imgPreview.style.filter = "blur(" + getAttributeEffectValue / 100 * 3 + "px" + ")";
+    } else if (imgPreview.classList.contains('effects__preview--heat')) {
       controlPin.style.display = 'block';
-      imgPreview.style.filter = "brightness(" + +effectValue.getAttribute('value') / 100 * 2 + ")";
-    } else if (imgPreview.className === 'img-upload__preview effects__preview--none') {
+      imgPreview.style.filter = "brightness(" + getAttributeEffectValue / 100 * 2 + ")";
+    } else if (imgPreview.classList.contains('effects__preview--none')) {
       controlPin.style.display = 'none';
     }
   });
@@ -216,15 +216,15 @@ effectControl.addEventListener('mousedown', function (evt) {
           effectControlBar.style.width = effectControl.style.left;
           effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / 453));
           
-          if (imgPreview.className === 'img-upload__preview effects__preview--chrome') {
+          if (imgPreview.classList.contains('effects__preview--chrome')) {
             imgPreview.style.filter = "grayscale(" + (result / 453).toFixed(1) + ")";
-          } else if (imgPreview.className === 'img-upload__preview effects__preview--sepia') {
+          } else if (imgPreview.classList.contains('effects__preview--sepia')) {
             imgPreview.style.filter = "sepia(" + (result / 453).toFixed(1) + ")";
-          } else if (imgPreview.className === 'img-upload__preview effects__preview--marvin') {
+          } else if (imgPreview.classList.contains('effects__preview--marvin')) {
             imgPreview.style.filter = "invert(" + (result / 453 * 100).toFixed(0) + "%" + ")";
-          } else if (imgPreview.className === 'img-upload__preview effects__preview--phobos') {
+          } else if (imgPreview.classList.contains('effects__preview--phobos')) {
             imgPreview.style.filter = "blur(" + (result / 453).toFixed(2) * 3 + "px" + ")";
-          } else if (imgPreview.className === 'img-upload__preview effects__preview--heat') {
+          } else if (imgPreview.classList.contains('effects__preview--heat')) {
             imgPreview.style.filter = "brightness(" + (result / 453).toFixed(2) * 3 + ")";
           } 
     }
