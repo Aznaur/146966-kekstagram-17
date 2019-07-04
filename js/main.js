@@ -114,7 +114,7 @@ var effectControlBar = document.querySelector('.effect-level__depth');
 var result;
 var effectValue = document.querySelector('.effect-level__value');
 var controlPin = document.querySelector('.img-upload__effect-level');
-controlPin.style.display = 'none';
+controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'display';
 for (var i = 0; i < effectsRadio.length; i++) {
   clickControl(effectsRadio[i]);
 }
@@ -226,9 +226,8 @@ effectControl.addEventListener('mousedown', function (evt) {
             imgPreview.style.filter = "blur(" + (result / 453).toFixed(2) * 3 + "px" + ")";
           } else if (imgPreview.classList.contains('effects__preview--heat')) {
             imgPreview.style.filter = "brightness(" + (result / 453).toFixed(2) * 3 + ")";
-          } 
+          }
     }
-
   };
 
   var onMouseUp = function (upEvt) {
