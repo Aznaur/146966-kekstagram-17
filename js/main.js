@@ -112,9 +112,10 @@ var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
 var effectControl = document.querySelector('.effect-level__pin');
 var effectControlBar = document.querySelector('.effect-level__depth');
 var result;
+var VALUE_CONST = 20;
 var effectValue = document.querySelector('.effect-level__value');
 var controlPin = document.querySelector('.img-upload__effect-level');
-controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'display';
+controlPin.style.display = 'none';
 for (var i = 0; i < effectsRadio.length; i++) {
   clickControl(effectsRadio[i]);
 }
@@ -130,33 +131,36 @@ function toggleFilter(control) {
   }
 }
 
+var getFilterValue = function (constValue, percent) {
+  if (percent) {
+    constValue /= percent;
+    return constValue;
+  }
+  return constValue;
+};
+
 function clickControl(control) {
   control.addEventListener('click', function () {
-    effectControl.style.left = '100px';
-    effectControlBar.style.width = '100px';
-    effectValue.setAttribute('value', 20);
+    effectControl.style.left = VALUE_CONST / 100 * 453 + 'px';
+    effectControlBar.style.width = VALUE_CONST / 100 * 453 + 'px';
+    effectValue.setAttribute('value', VALUE_CONST);
     var getAttributeEffectValue = +effectValue.getAttribute('value');
     toggleFilter(control);
+    controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'block';
     if (imgPreview.classList.contains('effects__preview--chrome')) {
-      controlPin.style.display = 'block';
-      imgPreview.style.filter = "grayscale(" + getAttributeEffectValue / 100 + ")";
+      imgPreview.style.filter = "grayscale(" + getFilterValue(getAttributeEffectValue, 100) + ")";
     } else if (imgPreview.classList.contains('effects__preview--sepia')) {
-      controlPin.style.display = 'block';
-      imgPreview.style.filter = "sepia(" + getAttributeEffectValue / 100 + ")";
+      imgPreview.style.filter = "sepia(" + getFilterValue(getAttributeEffectValue, 100) + ")";
     } else if (imgPreview.classList.contains('effects__preview--marvin')) {
-      controlPin.style.display = 'block';
-      imgPreview.style.filter = "invert(" + getAttributeEffectValue + "%" + ")";
+      imgPreview.style.filter = "invert(" + getFilterValue(getAttributeEffectValue) + "%" + ")";
     } else if (imgPreview.classList.contains('effects__preview--phobos')) {
-      controlPin.style.display = 'block';
-      imgPreview.style.filter = "blur(" + getAttributeEffectValue / 100 * 3 + "px" + ")";
+      imgPreview.style.filter = "blur(" + getFilterValue(getAttributeEffectValue, 100) * 3 + "px" + ")";
     } else if (imgPreview.classList.contains('effects__preview--heat')) {
-      controlPin.style.display = 'block';
-      imgPreview.style.filter = "brightness(" + getAttributeEffectValue / 100 * 2 + ")";
-    } else if (imgPreview.classList.contains('effects__preview--none')) {
-      controlPin.style.display = 'none';
-    }
+      imgPreview.style.filter = "brightness(" + getFilterValue(getAttributeEffectValue, 100) * 2 + ")";
+    } 
   });
 }
+
 
 var controlMin = document.querySelector('.scale__control--smaller');
 var controlMax = document.querySelector('.scale__control--bigger');
@@ -202,7 +206,7 @@ effectControl.addEventListener('mousedown', function (evt) {
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
-
+    var widthRandge = 453;
     var shift = {
       x: startCoords.x - moveEvt.clientX,
     };
@@ -211,21 +215,21 @@ effectControl.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
     };
     result = effectControl.offsetLeft - shift.x;
-    if (result >= 0 && result <= 453) {
+    if (result >= 0 && result <= widthRandge) {
           effectControl.style.left = (effectControl.offsetLeft - shift.x) + 'px';
           effectControlBar.style.width = effectControl.style.left;
-          effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / 453));
+          effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / widthRandge));
           
           if (imgPreview.classList.contains('effects__preview--chrome')) {
-            imgPreview.style.filter = "grayscale(" + (result / 453).toFixed(1) + ")";
+            imgPreview.style.filter = "grayscale(" + getFilterValue(result, widthRandge).toFixed(1) + ")";
           } else if (imgPreview.classList.contains('effects__preview--sepia')) {
-            imgPreview.style.filter = "sepia(" + (result / 453).toFixed(1) + ")";
+            imgPreview.style.filter = "sepia(" + getFilterValue(result, widthRandge).toFixed(1) + ")";
           } else if (imgPreview.classList.contains('effects__preview--marvin')) {
-            imgPreview.style.filter = "invert(" + (result / 453 * 100).toFixed(0) + "%" + ")";
+            imgPreview.style.filter = "invert(" + (getFilterValue(result, widthRandge) * 100).toFixed(0) + "%" + ")";
           } else if (imgPreview.classList.contains('effects__preview--phobos')) {
-            imgPreview.style.filter = "blur(" + (result / 453).toFixed(2) * 3 + "px" + ")";
+            imgPreview.style.filter = "blur(" + getFilterValue(result, widthRandge).toFixed(2) * 3 + "px" + ")";
           } else if (imgPreview.classList.contains('effects__preview--heat')) {
-            imgPreview.style.filter = "brightness(" + (result / 453).toFixed(2) * 3 + ")";
+            imgPreview.style.filter = "brightness(" + getFilterValue(result, widthRandge).toFixed(2) * 3 + ")";
           }
     }
   };
