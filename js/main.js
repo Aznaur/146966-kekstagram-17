@@ -78,6 +78,7 @@ var comm = document.querySelector('.text__description');
 
 var onImgUploadEscPress = function (evt) {
   if (comm === document.activeElement) {
+    return evt;
   } else if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
@@ -101,7 +102,7 @@ uploadFile.addEventListener('change', function () {
 imgUploadCancel.addEventListener('click', function () {
   closePopup();
 });
- 
+
 var effectsRadio = imgUploadOverlay.querySelectorAll('.effects__radio');
 var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
 var effectControl = document.querySelector('.effect-level__pin');
@@ -152,7 +153,7 @@ function clickControl(control) {
       imgPreview.style.filter = 'blur(' + getFilterValue(getAttributeEffectValue, 100) * 3 + 'px' + ')';
     } else if (imgPreview.classList.contains('effects__preview--heat')) {
       imgPreview.style.filter = 'brightness(' + getFilterValue(getAttributeEffectValue, 100) * 2 + ')';
-    } 
+    }
   });
 }
 
@@ -210,7 +211,6 @@ effectControl.addEventListener('mousedown', function (evt) {
       effectControl.style.left = (effectControl.offsetLeft - shift.x) + 'px';
       effectControlBar.style.width = effectControl.style.left;
       effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / widthRandge));
-         
       if (imgPreview.classList.contains('effects__preview--chrome')) {
         imgPreview.style.filter = 'grayscale(' + getFilterValue(result, widthRandge).toFixed(1) + ')';
       } else if (imgPreview.classList.contains('effects__preview--sepia')) {
