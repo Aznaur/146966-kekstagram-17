@@ -141,36 +141,32 @@ var filters = [
   {
     class: 'effects__preview--chrome',
     property: 'grayscale',
-    filter: function (vali, mass) {
-      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) + ')';
-      return imgPreview.style.filter;
+    filter: function (vali) {
+      return this.property + '(' + getFilterValue(vali, 100) + ')';
     },
     units: ''
   },
   {
     class: 'effects__preview--sepia',
     property: 'sepia',
-    filter: function (vali, mass) {
-      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) + ')';
-      return imgPreview.style.filter;
+    filter: function (vali) {
+      return this.property + '(' + getFilterValue(vali, 100) + ')';;
     },
     units: ''
   },
   {
     class: 'effects__preview--marvin',
     property: 'invert',
-    filter: function (vali, mass) {
-      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali) + mass.units + ')';
-      return imgPreview.style.filter;
+    filter: function (vali) {
+      return this.property + '(' + getFilterValue(vali) + this.units + ')';
     },
     units: '%'
   },
   {
     class: 'effects__preview--phobos',
     property: 'blur',
-    filter: function (vali, mass) {
-      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + mass.units + ')';
-      return imgPreview.style.filter;
+    filter: function (vali) {
+      return this.property + '(' + getFilterValue(vali, 100) * this.maxValue + this.units + ')';
     },
     maxValue: 3,
     units: 'px'
@@ -178,9 +174,8 @@ var filters = [
   {
     class: 'effects__preview--heat',
     property: 'brightness',
-    filter: function (vali, mass) {
-      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + ')';
-      return imgPreview.style.filter;
+    filter: function (vali) {
+      return this.property + '(' + getFilterValue(vali, 100) * this.maxValue + ')';
     },
     maxValue: 3,
     units: ''
@@ -197,7 +192,7 @@ function clickControl(control) {
     controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'block';
     for (var i = 0; i < filters.length; i++) {
       if (imgPreview.classList.contains(filters[i].class)) {
-        filters[i].filter(getAttributeEffectValue, filters[i]);
+        imgPreview.style.filter = filters[i].filter(getAttributeEffectValue, filters[i]);
       }
     }
   });
@@ -255,10 +250,10 @@ effectControl.addEventListener('mousedown', function (evt) {
     if (result >= 0 && result <= WIDTH_RANDGE) {
       effectControl.style.left = (effectControl.offsetLeft - shift.x) + 'px';
       effectControlBar.style.width = effectControl.style.left;
-      effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / WIDTH_RANDGE));
+      effectValue.value = Math.round(parseInt(effectControl.style.left) * 100 / WIDTH_RANDGE);
       for (var i = 0; i < filters.length; i++) {
         if (imgPreview.classList.contains(filters[i].class)) {
-          filters[i].filter((result / WIDTH_RANDGE * 100).toFixed(0), filters[i]);
+          imgPreview.style.filter = filters[i].filter((result / WIDTH_RANDGE * 100).toFixed(0), filters[i]);
         }
       }
     }
