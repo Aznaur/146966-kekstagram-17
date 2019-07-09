@@ -109,6 +109,7 @@ var effectControl = document.querySelector('.effect-level__pin');
 var effectControlBar = document.querySelector('.effect-level__depth');
 var result;
 var VALUE_CONST = 20;
+var WIDTH_RANDGE = 453;
 var effectValue = document.querySelector('.effect-level__value');
 var controlPin = document.querySelector('.img-upload__effect-level');
 controlPin.style.display = 'none';
@@ -135,25 +136,65 @@ var getFilterValue = function (constValue, percent) {
   return constValue;
 };
 
+
+var filters = [
+  {
+    class: 'effects__preview--chrome',
+    property: 'grayscale',
+    filter: function(vali, mass) {
+      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) +')';
+    },
+    units: ''
+  },
+  {
+    class: 'effects__preview--sepia',
+    property: 'sepia',
+    filter: function(vali, mass) {
+      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) +')';
+    },
+    units: ''
+  },
+  {
+    class: 'effects__preview--marvin',
+    property: 'invert',
+    filter: function(vali, mass) {
+      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali)  + mass.units + ')';
+    },
+    units: '%'
+  },
+  {
+    class: 'effects__preview--phobos',
+    property: 'blur',
+    filter: function(vali, mass) {
+      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + mass.units + ')';
+    },
+    maxValue: 3,
+    units: 'px'
+  },
+  {
+    class: 'effects__preview--heat',
+    property: 'brightness',
+    filter: function(vali, mass) {
+      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + ')';
+    },
+    maxValue: 3,
+    units: ''
+  }
+];
+
 function clickControl(control) {
   control.addEventListener('click', function () {
-    effectControl.style.left = VALUE_CONST / 100 * 453 + 'px';
-    effectControlBar.style.width = VALUE_CONST / 100 * 453 + 'px';
+    effectControl.style.left = VALUE_CONST / 100 * WIDTH_RANDGE + 'px';
+    effectControlBar.style.width = VALUE_CONST / 100 * WIDTH_RANDGE + 'px';
     effectValue.setAttribute('value', VALUE_CONST);
     var getAttributeEffectValue = +effectValue.getAttribute('value');
     toggleFilter(control);
     controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'block';
-    if (imgPreview.classList.contains('effects__preview--chrome')) {
-      imgPreview.style.filter = 'grayscale(' + getFilterValue(getAttributeEffectValue, 100) + ')';
-    } else if (imgPreview.classList.contains('effects__preview--sepia')) {
-      imgPreview.style.filter = 'sepia(' + getFilterValue(getAttributeEffectValue, 100) + ')';
-    } else if (imgPreview.classList.contains('effects__preview--marvin')) {
-      imgPreview.style.filter = 'invert(' + getFilterValue(getAttributeEffectValue) + '%' + ')';
-    } else if (imgPreview.classList.contains('effects__preview--phobos')) {
-      imgPreview.style.filter = 'blur(' + getFilterValue(getAttributeEffectValue, 100) * 3 + 'px' + ')';
-    } else if (imgPreview.classList.contains('effects__preview--heat')) {
-      imgPreview.style.filter = 'brightness(' + getFilterValue(getAttributeEffectValue, 100) * 2 + ')';
-    }
+    for (var i = 0; i < filters.length; i++) {
+      if (imgPreview.classList.contains(filters[i].class)) {
+        filters[i].filter(getAttributeEffectValue, filters[i]);
+      }
+    } 
   });
 }
 
@@ -198,7 +239,6 @@ effectControl.addEventListener('mousedown', function (evt) {
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
-    var widthRandge = 453;
     var shift = {
       x: startCoords.x - moveEvt.clientX,
     };
@@ -207,20 +247,14 @@ effectControl.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
     };
     result = effectControl.offsetLeft - shift.x;
-    if (result >= 0 && result <= widthRandge) {
+    if (result >= 0 && result <= WIDTH_RANDGE) {
       effectControl.style.left = (effectControl.offsetLeft - shift.x) + 'px';
       effectControlBar.style.width = effectControl.style.left;
-      effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / widthRandge));
-      if (imgPreview.classList.contains('effects__preview--chrome')) {
-        imgPreview.style.filter = 'grayscale(' + getFilterValue(result, widthRandge).toFixed(1) + ')';
-      } else if (imgPreview.classList.contains('effects__preview--sepia')) {
-        imgPreview.style.filter = 'sepia(' + getFilterValue(result, widthRandge).toFixed(1) + ')';
-      } else if (imgPreview.classList.contains('effects__preview--marvin')) {
-        imgPreview.style.filter = 'invert(' + (getFilterValue(result, widthRandge) * 100).toFixed(0) + '%' + ')';
-      } else if (imgPreview.classList.contains('effects__preview--phobos')) {
-        imgPreview.style.filter = 'blur(' + getFilterValue(result, widthRandge).toFixed(2) * 3 + 'px' + ')';
-      } else if (imgPreview.classList.contains('effects__preview--heat')) {
-        imgPreview.style.filter = 'brightness(' + getFilterValue(result, widthRandge).toFixed(2) * 3 + ')';
+      effectValue.setAttribute('value', Math.round(parseInt(effectControl.style.left) * 100 / WIDTH_RANDGE));
+      for (var i = 0; i < filters.length; i++) {
+        if (imgPreview.classList.contains(filters[i].class)) {
+          filters[i].filter((result / WIDTH_RANDGE * 100).toFixed(0), filters[i]);
+        }
       }
     }
   };
