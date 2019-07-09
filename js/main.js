@@ -141,8 +141,9 @@ var filters = [
   {
     class: 'effects__preview--chrome',
     property: 'grayscale',
-    filter: function(vali, mass) {
-      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) +')';
+    filter: function (vali, mass) {
+      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) + ')';
+      return imgPreview.style.filter;
     },
     units: ''
   },
@@ -150,7 +151,8 @@ var filters = [
     class: 'effects__preview--sepia',
     property: 'sepia',
     filter: function(vali, mass) {
-      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) +')';
+      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) + ')';
+      return imgPreview.style.filter;
     },
     units: ''
   },
@@ -158,7 +160,8 @@ var filters = [
     class: 'effects__preview--marvin',
     property: 'invert',
     filter: function(vali, mass) {
-      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali)  + mass.units + ')';
+      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali)  + mass.units + ')';
+      return imgPreview.style.filter;
     },
     units: '%'
   },
@@ -166,7 +169,8 @@ var filters = [
     class: 'effects__preview--phobos',
     property: 'blur',
     filter: function(vali, mass) {
-      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + mass.units + ')';
+      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + mass.units + ')';
+      return imgPreview.style.filter;
     },
     maxValue: 3,
     units: 'px'
@@ -175,7 +179,8 @@ var filters = [
     class: 'effects__preview--heat',
     property: 'brightness',
     filter: function(vali, mass) {
-      return imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + ')';
+      imgPreview.style.filter = mass.property + '(' + getFilterValue(vali, 100) * mass.maxValue + ')';
+      return imgPreview.style.filter;
     },
     maxValue: 3,
     units: ''
