@@ -250,7 +250,7 @@ effectControl.addEventListener('mousedown', function (evt) {
     if (result >= 0 && result <= WIDTH_RANDGE) {
       effectControl.style.left = (effectControl.offsetLeft - shift.x) + 'px';
       effectControlBar.style.width = effectControl.style.left;
-      effectValue.value = Math.round(parseInt(effectControl.style.left) * 100 / WIDTH_RANDGE);
+      effectValue.value = Math.round(parseInt(effectControl.style.left) * 100 / WIDTH_RANDGE, 10);
       for (var i = 0; i < filters.length; i++) {
         if (imgPreview.classList.contains(filters[i].class)) {
           imgPreview.style.filter = filters[i].filter((result / WIDTH_RANDGE * 100).toFixed(0), filters[i]);
