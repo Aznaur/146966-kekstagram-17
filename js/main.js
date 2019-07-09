@@ -150,7 +150,7 @@ var filters = [
     class: 'effects__preview--sepia',
     property: 'sepia',
     filter: function (vali) {
-      return this.property + '(' + getFilterValue(vali, 100) + ')';;
+      return this.property + '(' + getFilterValue(vali, 100) + ')';
     },
     units: ''
   },
