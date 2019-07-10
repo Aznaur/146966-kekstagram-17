@@ -83,6 +83,7 @@
     } else if (evt.keyCode === ESC_KEYCODE) {
       closePopup();
     }
+    return;
   };
 
   var openPopup = function () {

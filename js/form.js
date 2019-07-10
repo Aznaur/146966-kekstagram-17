@@ -11,8 +11,8 @@
   var effectValue = document.querySelector('.effect-level__value');
   var controlPin = document.querySelector('.img-upload__effect-level');
   controlPin.style.display = 'none';
-  for (var i = 0; i < effectsRadio.length; i++) {
-    clickControl(effectsRadio[i]);
+  for (var k = 0; k < effectsRadio.length; k++) {
+    clickControl(effectsRadio[k]);
   }
 
   function toggleFilter(control) {
@@ -164,6 +164,6 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });  
+  });
 })();
 
