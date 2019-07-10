@@ -73,7 +73,7 @@
   picturesElement.appendChild(appendPhotoElement());
 
   var uploadFile = document.querySelector('#upload-file');
-  window.imgUploadOverlay = document.querySelector('.img-upload__overlay');
+  var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
   var comm = document.querySelector('.text__description');
 
