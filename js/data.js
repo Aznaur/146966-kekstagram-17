@@ -1,8 +1,6 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
-
-  function randomInteger(min, max) {
+  window.randomInteger = function (min, max) {
     var rand = Math.floor(min + Math.random() * (max - min + 1));
     rand = Math.round(rand);
     return rand;
@@ -32,7 +30,7 @@
   };
   comments = getCommentsPhotos();
 
-  var publishedPhotos = [];
+  window.publishedPhotos = [];
   var getArrayPhotos = function () {
     for (var j = 0; j < 25; j++) {
       publishedPhotos.push({
@@ -44,65 +42,5 @@
     return publishedPhotos;
   };
   publishedPhotos = getArrayPhotos();
-
-
-  var picturesElement = document.querySelector('.pictures');
-  var pictureTemplate = document.querySelector('#picture')
-    .content
-    .querySelector('.picture');
-
-
-  var renderWizard = function (photo) {
-    var photoElement = pictureTemplate.cloneNode(true);
-    photoElement.href = photo.url;
-    photoElement.querySelector('.picture__img').src = photo.url;
-    photoElement.querySelector('.picture__comments').textContent = randomInteger(1, 10);
-    photoElement.querySelector('.picture__likes').textContent = photo.likes;
-    return photoElement;
-  };
-
-
-  var appendPhotoElement = function () {
-    var fragment = document.createDocumentFragment();
-    for (var p = 0; p < publishedPhotos.length; p++) {
-      fragment.appendChild(renderWizard(publishedPhotos[p]));
-    }
-    return fragment;
-  };
-
-  picturesElement.appendChild(appendPhotoElement());
-
-  var uploadFile = document.querySelector('#upload-file');
-  var imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
-  var comm = document.querySelector('.text__description');
-
-  var onImgUploadEscPress = function (evt) {
-    if (comm === document.activeElement) {
-      return evt;
-    } else if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
-    }
-    return evt;
-  };
-
-  var openPopup = function () {
-    imgUploadOverlay.classList.remove('hidden');
-    document.addEventListener('keydown', onImgUploadEscPress);
-  };
-
-  var closePopup = function () {
-    imgUploadOverlay.classList.add('hidden');
-    document.removeEventListener('keydown', onImgUploadEscPress);
-    uploadFile.value = '';
-  };
-
-  uploadFile.addEventListener('change', function () {
-    openPopup();
-  });
-
-  imgUploadCancel.addEventListener('click', function () {
-    closePopup();
-  });
 })();
 

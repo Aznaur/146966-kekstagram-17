@@ -84,7 +84,7 @@
       effectControl.style.left = VALUE_CONST / 100 * WIDTH_RANDGE + 'px';
       effectControlBar.style.width = VALUE_CONST / 100 * WIDTH_RANDGE + 'px';
       effectValue.setAttribute('value', VALUE_CONST);
-      var getAttributeEffectValue = +effectValue.getAttribute('value');
+      var getAttributeEffectValue = +effectValue.value;
       toggleFilter(control);
       controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'block';
       for (var j = 0; j < filters.length; j++) {
