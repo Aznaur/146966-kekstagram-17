@@ -15,15 +15,12 @@
     return photoElement;
   };
 
-
-  var appendPhotoElement = function () {
+  window.load(function (wizards) {
     var fragment = document.createDocumentFragment();
-    for (var p = 0; p < publishedPhotos.length; p++) {
-      fragment.appendChild(displayPhoto(publishedPhotos[p]));
+    for (var p = 0; p < wizards.length; p++) {
+      fragment.appendChild(displayPhoto(wizards[p]));
     }
-    return fragment;
-  };
-
-  picturesElement.appendChild(appendPhotoElement());
+    picturesElement.appendChild(fragment);
+  });
 })();
 

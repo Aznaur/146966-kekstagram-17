@@ -30,17 +30,17 @@
   };
   comments = getCommentsPhotos();
 
-  window.publishedPhotos = [];
-  var getArrayPhotos = function () {
-    for (var j = 0; j < 25; j++) {
-      publishedPhotos.push({
-        url: 'photos/' + (j + 1) + '.jpg',
-        likes: randomInteger(15, 200),
-        comment: comments[randomInteger(0, comments.length - 1)]
-      });
-    }
-    return publishedPhotos;
-  };
-  publishedPhotos = getArrayPhotos();
+  // window.publishedPhotos = [];
+  // var getArrayPhotos = function () {
+  //   for (var j = 0; j < 25; j++) {
+  //     window.publishedPhotos.push({
+  //       url: 'photos/' + (j + 1) + '.jpg',
+  //       likes: window.randomInteger(15, 200),
+  //       comment: comments[window.randomInteger(0, comments.length - 1)]
+  //     });
+  //   }
+  //   return window.publishedPhotos;
+  // };
+  // window.publishedPhotos = getArrayPhotos();
 })();
 
