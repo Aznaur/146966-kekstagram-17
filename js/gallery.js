@@ -1,12 +1,13 @@
 'use strict';
 (function () {
   var picturesElement = document.querySelector('.pictures');
+  var imgFilters = document.querySelector('.img-filters');
   var pictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 
 
-  var createPhotoElement = function (photo) {
+  window.createPhotoElement = function (photo) {
     var photoElement = pictureTemplate.cloneNode(true);
     photoElement.href = photo.url;
     photoElement.querySelector('.picture__img').src = photo.url;
@@ -15,12 +16,21 @@
     return photoElement;
   };
 
-  window.load(function (wizards) {
+  window.renderPics = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var p = 0; p < wizards.length; p++) {
-      fragment.appendChild(createPhotoElement(wizards[p]));
+    for (var p = 0; p < data.length; p++) {
+      fragment.appendChild(window.createPhotoElement(data[p]));
     }
     picturesElement.appendChild(fragment);
-  });
+    imgFilters.classList.remove('img-filters--inactive');
+  };
+
+  var successHandler = function (data) {
+    window.photosy  = data.slice(0);
+    renderPics(window.photosy);
+  };
+
+  window.load(successHandler);
+
 })();
 
