@@ -11,7 +11,7 @@
     var photoElement = pictureTemplate.cloneNode(true);
     photoElement.href = photo.url;
     photoElement.querySelector('.picture__img').src = photo.url;
-    photoElement.querySelector('.picture__comments').textContent = window.randomInteger(1, 10);
+    photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
     photoElement.querySelector('.picture__likes').textContent = photo.likes;
     return photoElement;
   };
