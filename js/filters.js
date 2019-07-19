@@ -25,7 +25,7 @@
 
   // Сортировка по популярности
   function sortingPopular() {
-    var popularPhotos = window.photosy.slice(0);
+    var popularPhotos = window.photosy.slice();
     popularPhotos.sort(function (a, b) {
       return b - a;
     });
@@ -34,7 +34,7 @@
 
   // Сортировка по кол-ву комментариев
   function sortingDiscussed() {
-    var discussedPhotos = window.photosy.slice(0);
+    var discussedPhotos = window.photosy.slice();
     discussedPhotos.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
@@ -43,7 +43,7 @@
 
   // Сортировка в случайном порядке
   function sortingRandom() {
-    var randomPhotos = window.photosy.slice(0);
+    var randomPhotos = window.photosy.slice();
     randomPhotos.sort(function (a, b) {
       return Math.random() - 0.5;
     });
@@ -54,21 +54,21 @@
   var popularChangeHandler = function (evt) {
     removePhoto();
     removeActiveFilter();
-    window.renderPics(sortingPopular());
+    window.debounce.setDebounce(window.renderPics(sortingPopular()));
     evt.target.classList.add('img-filters__button--active');
   };
 
   var discussedChangeHandler = function (evt) {
     removePhoto();
     removeActiveFilter();
-    window.renderPics(sortingDiscussed());
+    window.debounce.setDebounce(window.renderPics(sortingDiscussed()));
     evt.target.classList.add('img-filters__button--active');
   };
 
   var randomChangeHandler = function (evt) {
     removePhoto();
     removeActiveFilter();
-    window.renderPics(sortingRandom());
+    window.debounce.setDebounce(window.renderPics(sortingRandom()));
     evt.target.classList.add('img-filters__button--active');
   };
 
