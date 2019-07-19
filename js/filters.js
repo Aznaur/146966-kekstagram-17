@@ -44,7 +44,7 @@
   // Сортировка в случайном порядке
   function sortingRandom() {
     var randomPhotos = window.photosy.slice();
-    randomPhotos.sort(function (a, b) {
+    randomPhotos.sort(function () {
       return Math.random() - 0.5;
     });
     return randomPhotos;
@@ -77,3 +77,4 @@
   random.addEventListener('click', randomChangeHandler);
 
 })();
+

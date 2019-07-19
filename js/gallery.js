@@ -26,8 +26,8 @@
   };
 
   var successHandler = function (data) {
-    window.photosy  = data.slice(0);
-    renderPics(window.photosy);
+    window.photosy = data.slice(0);
+    window.renderPics(window.photosy);
   };
 
   window.load(successHandler);

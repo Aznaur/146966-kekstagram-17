@@ -8,7 +8,7 @@
 
   var onImgUploadEscPress = function (evt) {
     if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE) {
-        closePopup();
+      closePopup();
     }
   };
 
