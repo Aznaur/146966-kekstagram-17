@@ -5,12 +5,11 @@
   var random = document.querySelector('#filter-new');
   var discusssed = document.querySelector('#filter-discussed');
   var photoBox = document.querySelector('.pictures');
-  var photo = photoBox.querySelectorAll('.picture');
   var filters = document.querySelector('.img-filters');
   var filterEl = filters.querySelectorAll('.img-filters__button');
 
-
   var removePhoto = function () {
+    var photo = photoBox.querySelectorAll('.picture');
     photo.forEach(function (item) {
       photoBox.removeChild(item);
     });
@@ -25,51 +24,38 @@
   };
 
   // Сортировка по популярности
-  function sortingPopular() {
-    var popularPhotos = window.photosy.slice();
-    popularPhotos.sort(function (a, b) {
+  function sortingPopular(a, b) {
       return b - a;
-    });
-    return popularPhotos;
   }
 
   // Сортировка по кол-ву комментариев
-  function sortingDiscussed() {
-    var discussedPhotos = window.photosy.slice();
-    discussedPhotos.sort(function (a, b) {
+  function sortingDiscussed(a, b) {
       return b.comments.length - a.comments.length;
-    });
-    return discussedPhotos;
   }
 
   // Сортировка в случайном порядке
   function sortingRandom() {
-    var randomPhotos = window.photosy.slice();
-    randomPhotos.sort(function () {
       return Math.random() - 0.5;
-    });
-    return randomPhotos;
   }
 
-  var popularChangeHandler = function (evt) {
+  var newFunc = function (sortingFunc, sortingClass) {
     removePhoto();
     removeActiveFilter();
-    window.debounce.setDebounce(window.renderPics(sortingPopular()));
-    evt.target.classList.add('img-filters__button--active');
+    var newPics = window.photosy.slice().sort(sortingFunc);
+    window.debounce.setDebounce(window.renderPics(newPics));
+    sortingClass.classList.add('img-filters__button--active');
   };
 
-  var discussedChangeHandler = function (evt) {
-    removePhoto();
-    removeActiveFilter();
-    window.debounce.setDebounce(window.renderPics(sortingDiscussed()));
-    evt.target.classList.add('img-filters__button--active');
+  var popularChangeHandler = function () {
+    newFunc(sortingPopular, popular);
   };
 
-  var randomChangeHandler = function (evt) {
-    removePhoto();
-    removeActiveFilter();
-    window.debounce.setDebounce(window.renderPics(sortingRandom()));
-    evt.target.classList.add('img-filters__button--active');
+  var discussedChangeHandler = function () {
+    newFunc(sortingDiscussed, discusssed);
+  };
+
+  var randomChangeHandler = function () {
+    newFunc(sortingRandom, random);
   };
 
   popular.addEventListener('click', popularChangeHandler);
