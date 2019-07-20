@@ -25,17 +25,17 @@
 
   // Сортировка по популярности
   function sortingPopular(a, b) {
-      return b - a;
+    return b - a;
   }
 
   // Сортировка по кол-ву комментариев
   function sortingDiscussed(a, b) {
-      return b.comments.length - a.comments.length;
+    return b.comments.length - a.comments.length;
   }
 
   // Сортировка в случайном порядке
   function sortingRandom() {
-      return Math.random() - 0.5;
+    return Math.random() - 0.5;
   }
 
   var newFunc = function (sortingFunc, sortingClass) {
