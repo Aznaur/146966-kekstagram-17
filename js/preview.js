@@ -7,12 +7,9 @@
   var comm = document.querySelector('.text__description');
 
   var onImgUploadEscPress = function (evt) {
-    if (comm === document.activeElement) {
-      return evt;
-    } else if (evt.keyCode === ESC_KEYCODE) {
+    if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE) {
       closePopup();
     }
-    return evt;
   };
 
   var openPopup = function () {
