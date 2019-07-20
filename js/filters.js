@@ -4,18 +4,19 @@
   var popular = document.querySelector('#filter-popular');
   var random = document.querySelector('#filter-new');
   var discusssed = document.querySelector('#filter-discussed');
+  var photoBox = document.querySelector('.pictures');
+  var photo = photoBox.querySelectorAll('.picture');
+  var filters = document.querySelector('.img-filters');
+  var filterEl = filters.querySelectorAll('.img-filters__button');
+
 
   var removePhoto = function () {
-    var photoBox = document.querySelector('.pictures');
-    var photo = photoBox.querySelectorAll('.picture');
     photo.forEach(function (item) {
       photoBox.removeChild(item);
     });
   };
 
   var removeActiveFilter = function () {
-    var filters = document.querySelector('.img-filters');
-    var filterEl = filters.querySelectorAll('.img-filters__button');
     filterEl.forEach(function (el) {
       if (el.classList.contains('img-filters__button--active')) {
         el.classList.remove('img-filters__button--active');
@@ -49,7 +50,6 @@
     });
     return randomPhotos;
   }
-
 
   var popularChangeHandler = function (evt) {
     removePhoto();
