@@ -6,7 +6,6 @@
     .content
     .querySelector('.picture');
 
-
   window.createPhotoElement = function (photo) {
     var photoElement = pictureTemplate.cloneNode(true);
     photoElement.href = photo.url;
@@ -31,6 +30,26 @@
   };
 
   window.load(successHandler);
+
+// Модуль показа большой фотографии
+//--------------------------------
+  var pictureElement = document.querySelector('.pictures');
+  var bigPicture = document.querySelector('.big-picture');
+  var bodyContainer = document.querySelector('body');
+
+
+  pictureElement.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    bigPicture.classList.remove('hidden');
+    bodyContainer.classList.add('modal-open');
+    bigPicture.querySelector('.big-picture__img img').src = window.photosy[0].url;
+    bigPicture.querySelector('.likes-count').textContent = window.photosy[0].likes;
+    bigPicture.querySelector('.comments-count').textContent = window.photosy[0].comments.length;
+    bigPicture.querySelector('.social__picture').src = "img/avatar-" + window.randomInteger(1, 6) +".svg";
+    bigPicture.querySelector('.social__caption').textContent = window.photosy[0].description;
+    bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+    bigPicture.querySelector('.comments-loader').classList.add('hidden');
+  });
 
 })();
 
