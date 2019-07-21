@@ -39,7 +39,6 @@
 
   // Модуль показа большой фотографии
   // --------------------------------
-  var picturesElement = document.querySelector('.pictures');
   var bigPicture = document.querySelector('.big-picture');
   var bodyContainer = document.querySelector('body');
   var clouseBigPicture = bigPicture.querySelector('.big-picture__cancel');
@@ -69,7 +68,7 @@
 
 // Модуль закрытия большой фотографии
 // ----------------------------------
-   var onPicturClousedEscPress = function (evt) {
+  var onPicturClousedEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       clousePopupBigPicture();
     }
