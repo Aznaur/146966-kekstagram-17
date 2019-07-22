@@ -6,6 +6,7 @@
   var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
   var comm = document.querySelector('.text__description');
   var hashtags = document.querySelector('.text__hashtags');
+
   var onImgUploadEscPress = function (evt) {
     if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE 
       && hashtags !== document.activeElement) {
