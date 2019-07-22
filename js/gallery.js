@@ -59,6 +59,7 @@
     for (var i = 0; i < photo.comments.length; i++) {
       var commentElement = commentTemplate.cloneNode(true);
       commentElement.querySelector('.social__picture').src = photo.comments[i].avatar;
+      commentElement.querySelector('.social__picture').alt = photo.comments[i].name;
       commentElement.querySelector('.social__text').textContent = photo.comments[i].message;
       fragment.appendChild(commentElement);
     }
