@@ -102,11 +102,11 @@
   function checkHashTagsValidity() {
     var rawArray = hashTagInput.value.split(HASH_TAGS_VALIDATION.separator);
     window.arrayOfValues = trimHashTags(rawArray);
-    if (arrayOfValues.length === 0) {
+    if (window.arrayOfValues.length === 0) {
       return;
     }
 
-    arrayOfValues.forEach(function (it) {
+    window.arrayOfValues.forEach(function (it) {
       window.hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
 
       if (it.length >= HASH_TAGS_VALIDATION.maxOneTagLength) {
@@ -125,14 +125,14 @@
         return item === '#';
       });
 
-      if (hashSymbols.length !== 1 || isTagContainOnlyHash) {
+      if (window.hashSymbols.length !== 1 || isTagContainOnlyHash) {
         setInvalidClass(hashTagInput);
         hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage4);
         return;
       }
     });
 
-    if (!isUniqElementsInArray(arrayOfValues)) {
+    if (!isUniqElementsInArray(window.arrayOfValues)) {
       setInvalidClass(hashTagInput);
       hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage1);
     }
@@ -157,9 +157,8 @@
   var mainTeg = document.querySelector('main');
   var buttonClouseMassage = window.successMassage.querySelector('.success__button');
   var buttonRepeat = window.errorMassage.querySelector('.error__button');
-  var buttonErrorClouseMassage = window.errorMassage.querySelector('.error__button2');
   var fragment = document.createDocumentFragment();
-  
+
   // Функция сообщение об ошибки
   var displayErrorMessage = function (massage) {
     window.errorMassage.querySelector('.error__title').textContent = massage;
@@ -186,10 +185,10 @@
       window.successMassage.remove();
     });
   };
-  
+
   function onFormSubmit(evt) {
     evt.preventDefault();
-    window.save(new FormData(form), function (responseText) {
+    window.save(new FormData(form), function () {
       closePopup();
       displaySuccessTemplate();
     }, displayErrorMessage);
