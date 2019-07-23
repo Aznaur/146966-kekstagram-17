@@ -5,7 +5,7 @@
     var xhr = new XMLHttpRequest();
     xhr.timeout = 50000;
     xhr.open('POST', 'https://js.dump.academy/kekstagram');
-    
+
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
@@ -20,7 +20,6 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    
     xhr.send(data);
   };
 

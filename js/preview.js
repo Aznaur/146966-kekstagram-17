@@ -77,11 +77,6 @@
     element.classList.remove('invalid');
   }
 
-  // Проверка, присутствует ли класс .invalid у элемента
-  function checkInvalidClass(element) {
-    return element.classList.contains('invalid');
-  }
-
   // Клик на кнопке отправки формы
   function onSubmitClick() {
     unsetInvalidClass(hashTagInput);
