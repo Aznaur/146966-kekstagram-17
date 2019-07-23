@@ -8,8 +8,7 @@
   var hashTagInput = document.querySelector('.text__hashtags');
   var submitButton = document.querySelector('.img-upload__submit');
   var onImgUploadEscPress = function (evt) {
-    if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE 
-      && hashTagInput !== document.activeElement) {
+    if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE && hashTagInput !== document.activeElement) {
       closePopup();
     }
   };
@@ -35,10 +34,8 @@
     closePopup();
   });
 
-
-
-// Валидация формы --------------------------------------------------------
-// ------------------------------------------------------------------------
+  // Валидация формы --------------------------------------------------------
+  // ------------------------------------------------------------------------
   var HASH_TAGS_VALIDATION = {
     firstChar: '#',
     regExpFirstChar: /#/g,
@@ -47,7 +44,6 @@
     maxOneTagLength: 20,
     errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и не может состоять только из одной решётки. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
   };
-
 
   // Проверка, что все элементы в массиве уникальны
   function isUniqElementsInArray(rawArray) {
@@ -79,7 +75,7 @@
     return element.classList.contains('invalid');
   }
 
-    // Клик на кнопке отправки формы
+  // Клик на кнопке отправки формы
   function onSubmitClick() {
     unsetInvalidClass(hashTagInput);
     hashTagInput.setCustomValidity('');

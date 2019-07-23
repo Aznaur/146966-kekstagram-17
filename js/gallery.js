@@ -67,8 +67,8 @@
     bigPicture.querySelector('.social__comments').appendChild(fragment);
   };
 
-// Модуль закрытия большой фотографии
-// ----------------------------------
+  // Модуль закрытия большой фотографии
+  // ----------------------------------
   var onPicturClousedEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       clousePopupBigPicture();
