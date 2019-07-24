@@ -7,6 +7,7 @@
   var comm = document.querySelector('.text__description');
   var hashTagInput = document.querySelector('.text__hashtags');
   var submitButton = document.querySelector('.img-upload__submit');
+  var form = document.querySelector('.img-upload__form');
   var onImgUploadEscPress = function (evt) {
     if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE && hashTagInput !== document.activeElement) {
       closePopup();
@@ -17,13 +18,17 @@
     imgUploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onImgUploadEscPress);
     submitButton.addEventListener('click', onSubmitClick);
+    form.addEventListener('submit', onFormSubmit);
   };
 
   var closePopup = function () {
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onImgUploadEscPress);
     uploadFile.value = '';
+    hashTagInput.value = '';
+    comm.value = '';
     submitButton.removeEventListener('click', onSubmitClick);
+    form.removeEventListener('submit', onFormSubmit);
   };
 
   uploadFile.addEventListener('change', function () {
@@ -42,7 +47,13 @@
     separator: ' ',
     maxAmount: 5,
     maxOneTagLength: 20,
-    errorMessage: 'Хэш-тег начинается с символа \`#\` (решётка) и не может состоять только из одной решётки. \nХэш-теги разделяются пробелами. \nОдин и тот же хэш-тег не может быть использован дважды. \nНельзя указать больше пяти хэш-тегов. \nМаксимальная длина одного хэш-тега 20 символов.'
+    error: {
+      doubleTag: 'Один и тот же хэш-тег не может быть использован дважды',
+      maxCount: 'Нельзя указать больше пяти хэш-тегов',
+      startHashTag: 'Хэш-тег начинается с символа # (решётка)',
+      hashTagEmpty: 'Хеш-тег не может состоять только из одной решётки',
+      maxOneTag: 'Максимальная длина одного хэш-тега 20 символов.'
+    }
   };
 
   // Проверка, что все элементы в массиве уникальны
@@ -70,11 +81,6 @@
     element.classList.remove('invalid');
   }
 
-  // Проверка, присутствует ли класс .invalid у элемента
-  function checkInvalidClass(element) {
-    return element.classList.contains('invalid');
-  }
-
   // Клик на кнопке отправки формы
   function onSubmitClick() {
     unsetInvalidClass(hashTagInput);
@@ -94,26 +100,95 @@
   // Валидация строки с хэш-тегами
   function checkHashTagsValidity() {
     var rawArray = hashTagInput.value.split(HASH_TAGS_VALIDATION.separator);
-    var arrayOfValues = trimHashTags(rawArray);
-    if (arrayOfValues.length === 0) {
+    window.arrayOfValues = trimHashTags(rawArray);
+    if (window.arrayOfValues.length === 0) {
       return;
     }
 
-    arrayOfValues.forEach(function (it) {
-      var hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
+    window.arrayOfValues.forEach(function (it) {
+      window.hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
 
-      var isValid = it.charAt(0) === HASH_TAGS_VALIDATION.firstChar && (hashSymbols && hashSymbols.length === 1) && it.length <= HASH_TAGS_VALIDATION.maxOneTagLength;
-
-      if (!isValid) {
+      if (it.length >= HASH_TAGS_VALIDATION.maxOneTagLength) {
         setInvalidClass(hashTagInput);
+        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.maxOneTag);
+        return;
+      }
+
+      if (it.charAt(0) !== HASH_TAGS_VALIDATION.firstChar) {
+        setInvalidClass(hashTagInput);
+        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.startHashTag);
+        return;
+      }
+
+      var isTagContainOnlyHash = window.arrayOfValues.some(function (item) {
+        return item === '#';
+      });
+
+      if (window.hashSymbols.length !== 1 || isTagContainOnlyHash) {
+        setInvalidClass(hashTagInput);
+        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.hashTagEmpty);
+        return;
       }
     });
-    if (!isUniqElementsInArray(arrayOfValues) || arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
+
+    if (!isUniqElementsInArray(window.arrayOfValues)) {
       setInvalidClass(hashTagInput);
+      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.doubleTag);
     }
-    if (checkInvalidClass(hashTagInput)) {
-      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage);
+
+    if (window.arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
+      setInvalidClass(hashTagInput);
+      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.maxCount);
     }
   }
+
+
+  var errorTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+  var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+
+  window.errorMessage = errorTemplate.cloneNode(true);
+  window.successMessage = successTemplate.cloneNode(true);
+
+  var mainTeg = document.querySelector('main');
+  var buttonCloseMessage = window.successMessage.querySelector('.success__button');
+  var buttonRepeat = window.errorMessage.querySelector('.error__button');
+
+  // Функция сообщение об ошибки
+  var displayErrorMessage = function (message) {
+    window.errorMessage.querySelector('.error__title').textContent = message;
+    mainTeg.appendChild(window.errorMessage);
+    buttonRepeat.addEventListener('click', function () {
+      closePopup();
+      window.errorMessage.remove();
+    });
+    window.errorMessage.addEventListener('click', function () {
+      window.errorMessage.remove();
+      closePopup();
+    });
+  };
+
+  // Функция сообщение об успешной загрузки
+  var displaySuccessTemplate = function () {
+    mainTeg.appendChild(window.successMessage);
+    buttonCloseMessage.addEventListener('click', function () {
+      window.successMessage.remove();
+    });
+    window.successMessage.addEventListener('click', function () {
+      window.successMessage.remove();
+    });
+  };
+
+  function onFormSubmit(evt) {
+    evt.preventDefault();
+    window.save(new FormData(form), function () {
+      closePopup();
+      displaySuccessTemplate();
+    }, displayErrorMessage);
+  }
+
 })();
 
