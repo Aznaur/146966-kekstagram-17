@@ -25,6 +25,8 @@
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onImgUploadEscPress);
     uploadFile.value = '';
+    hashTagInput.value = '';
+    comm.value = '';
     submitButton.removeEventListener('click', onSubmitClick);
     form.removeEventListener('submit', onFormSubmit);
   };
@@ -45,11 +47,13 @@
     separator: ' ',
     maxAmount: 5,
     maxOneTagLength: 20,
-    errorMessage1: 'Один и тот же хэш-тег не может быть использован дважды',
-    errorMessage2: 'Нельзя указать больше пяти хэш-тегов',
-    errorMessage3: 'Хэш-тег начинается с символа # (решётка)',
-    errorMessage4: 'Хеш-тег не может состоять только из одной решётки',
-    errorMessage5: 'Максимальная длина одного хэш-тега 20 символов.'
+    error: {
+      doubleTag: 'Один и тот же хэш-тег не может быть использован дважды',
+      maxCount: 'Нельзя указать больше пяти хэш-тегов',
+      startHashTag: 'Хэш-тег начинается с символа # (решётка)',
+      hashTagEmpty: 'Хеш-тег не может состоять только из одной решётки',
+      maxOneTag: 'Максимальная длина одного хэш-тега 20 символов.'
+    }
   };
 
   // Проверка, что все элементы в массиве уникальны
@@ -106,13 +110,13 @@
 
       if (it.length >= HASH_TAGS_VALIDATION.maxOneTagLength) {
         setInvalidClass(hashTagInput);
-        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage5);
+        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.maxOneTag);
         return;
       }
 
       if (it.charAt(0) !== HASH_TAGS_VALIDATION.firstChar) {
         setInvalidClass(hashTagInput);
-        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage3);
+        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.startHashTag);
         return;
       }
 
@@ -122,19 +126,19 @@
 
       if (window.hashSymbols.length !== 1 || isTagContainOnlyHash) {
         setInvalidClass(hashTagInput);
-        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage4);
+        hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.hashTagEmpty);
         return;
       }
     });
 
     if (!isUniqElementsInArray(window.arrayOfValues)) {
       setInvalidClass(hashTagInput);
-      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage1);
+      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.doubleTag);
     }
 
     if (window.arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
       setInvalidClass(hashTagInput);
-      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.errorMessage2);
+      hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.maxCount);
     }
   }
 
@@ -146,38 +150,35 @@
     .content
     .querySelector('.success');
 
-  window.errorMassage = errorTemplate.cloneNode(true);
-  window.successMassage = successTemplate.cloneNode(true);
+  window.errorMessage = errorTemplate.cloneNode(true);
+  window.successMessage = successTemplate.cloneNode(true);
 
   var mainTeg = document.querySelector('main');
-  var buttonClouseMassage = window.successMassage.querySelector('.success__button');
-  var buttonRepeat = window.errorMassage.querySelector('.error__button');
-  var fragment = document.createDocumentFragment();
+  var buttonCloseMessage = window.successMessage.querySelector('.success__button');
+  var buttonRepeat = window.errorMessage.querySelector('.error__button');
 
   // Функция сообщение об ошибки
-  var displayErrorMessage = function (massage) {
-    window.errorMassage.querySelector('.error__title').textContent = massage;
-    fragment.appendChild(window.errorMassage);
-    mainTeg.appendChild(fragment);
+  var displayErrorMessage = function (message) {
+    window.errorMessage.querySelector('.error__title').textContent = message;
+    mainTeg.appendChild(window.errorMessage);
     buttonRepeat.addEventListener('click', function () {
       closePopup();
-      window.errorMassage.remove();
+      window.errorMessage.remove();
     });
-    window.errorMassage.addEventListener('click', function () {
-      window.errorMassage.remove();
+    window.errorMessage.addEventListener('click', function () {
+      window.errorMessage.remove();
       closePopup();
     });
   };
 
   // Функция сообщение об успешной загрузки
   var displaySuccessTemplate = function () {
-    fragment.appendChild(window.successMassage);
-    mainTeg.appendChild(fragment);
-    buttonClouseMassage.addEventListener('click', function () {
-      window.successMassage.remove();
+    mainTeg.appendChild(window.successMessage);
+    buttonCloseMessage.addEventListener('click', function () {
+      window.successMessage.remove();
     });
-    window.successMassage.addEventListener('click', function () {
-      window.successMassage.remove();
+    window.successMessage.addEventListener('click', function () {
+      window.successMessage.remove();
     });
   };
 
