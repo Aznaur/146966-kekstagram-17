@@ -79,11 +79,16 @@
     }
   ];
 
+
+  window.setFilterDefault = function () {
+    effectControl.style.left = VALUE_CONST / 100 * WIDTH_RANGE + 'px';
+    effectControlBar.style.width = VALUE_CONST / 100 * WIDTH_RANGE + 'px';
+    effectValue.value = VALUE_CONST;
+  };
+
   function clickControl(control) {
     control.addEventListener('click', function () {
-      effectControl.style.left = VALUE_CONST / 100 * WIDTH_RANGE + 'px';
-      effectControlBar.style.width = VALUE_CONST / 100 * WIDTH_RANGE + 'px';
-      effectValue.value = VALUE_CONST;
+      window.setFilterDefault();
       var getAttributeEffectValue = +effectValue.value;
       toggleFilter(control);
       controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'block';

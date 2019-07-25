@@ -8,6 +8,7 @@
   var hashTagInput = document.querySelector('.text__hashtags');
   var submitButton = document.querySelector('.img-upload__submit');
   var form = document.querySelector('.img-upload__form');
+  var bodyContainer = document.querySelector('body');
   var onImgUploadEscPress = function (evt) {
     if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE && hashTagInput !== document.activeElement) {
       closePopup();
@@ -19,11 +20,13 @@
     document.addEventListener('keydown', onImgUploadEscPress);
     submitButton.addEventListener('click', onSubmitClick);
     form.addEventListener('submit', onFormSubmit);
+    bodyContainer.classList.add('modal-open');
   };
 
   var closePopup = function () {
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onImgUploadEscPress);
+    bodyContainer.classList.remove('modal-open');
     uploadFile.value = '';
     hashTagInput.value = '';
     comm.value = '';
