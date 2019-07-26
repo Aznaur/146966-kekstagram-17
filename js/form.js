@@ -1,13 +1,15 @@
 'use strict';
 (function () {
+  var VALUE_CONST = 20;
+  var WIDTH_RANGE = 453;
+  var STEP = 25;
+  var MIN_SCALE = 25;
+  var MAX_SCALE = 100;
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var effectsRadio = imgUploadOverlay.querySelectorAll('.effects__radio');
   var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
   var effectControl = document.querySelector('.effect-level__pin');
   var effectControlBar = document.querySelector('.effect-level__depth');
-  var result;
-  var VALUE_CONST = 20;
-  var WIDTH_RANGE = 453;
   var effectValue = document.querySelector('.effect-level__value');
   var controlPin = document.querySelector('.img-upload__effect-level');
   controlPin.style.display = 'none';
@@ -29,7 +31,6 @@
   var getFilterValue = function (constValue, percent) {
     if (percent) {
       constValue /= percent;
-      return constValue;
     }
     return constValue;
   };
@@ -89,12 +90,12 @@
   function clickControl(control) {
     control.addEventListener('click', function () {
       window.setFilterDefault();
-      var getAttributeEffectValue = +effectValue.value;
+      var attributeEffectValue = +effectValue.value;
       toggleFilter(control);
       controlPin.style.display = imgPreview.classList.contains('effects__preview--none') ? 'none' : 'block';
       for (var j = 0; j < filters.length; j++) {
         if (imgPreview.classList.contains(filters[j].class)) {
-          imgPreview.style.filter = filters[j].filter(getAttributeEffectValue, filters[j]);
+          imgPreview.style.filter = filters[j].filter(attributeEffectValue, filters[j]);
         }
       }
     });
@@ -104,11 +105,12 @@
   var controlMax = document.querySelector('.scale__control--bigger');
   var controlValue = document.querySelector('.scale__control--value');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
-  var STEP = 25;
+
 
   var scaleOut = function () {
+    controlValue.value;
     var presentValue = parseInt(controlValue.getAttribute('value'), 10);
-    if (presentValue > 25) {
+    if (presentValue > MIN_SCALE) {
       presentValue = presentValue - STEP;
       controlValue.setAttribute('value', presentValue + '%');
       imgUploadPreview.style.transform = 'scale(' + (presentValue / 100) + ')';
@@ -116,8 +118,9 @@
   };
 
   var scaleUp = function () {
+    controlValue.value;
     var presentValue = parseInt(controlValue.getAttribute('value'), 10);
-    if (presentValue < 100) {
+    if (presentValue < MAX_SCALE) {
       presentValue = presentValue + STEP;
       controlValue.setAttribute('value', presentValue + '%');
       imgUploadPreview.style.transform = 'scale(' + (presentValue / 100) + ')';
@@ -140,6 +143,7 @@
     };
 
     var onMouseMove = function (moveEvt) {
+      var result;
       moveEvt.preventDefault();
       var shift = {
         x: startCoords.x - moveEvt.clientX,

@@ -3,7 +3,7 @@
 
   var popular = document.querySelector('#filter-popular');
   var random = document.querySelector('#filter-new');
-  var discusssed = document.querySelector('#filter-discussed');
+  var discussed = document.querySelector('#filter-discussed');
   var photoBox = document.querySelector('.pictures');
   var filters = document.querySelector('.img-filters');
   var filterEl = filters.querySelectorAll('.img-filters__button');
@@ -38,28 +38,28 @@
     return Math.random() - 0.5;
   }
 
-  var newFunc = function (sortingFunc, sortingClass) {
+  var sortPhotos = function (sortingFunc, sortingClass) {
     removePhoto();
     removeActiveFilter();
-    var newPics = window.photosy.slice().sort(sortingFunc);
+    var newPics = window.photos.slice().sort(sortingFunc);
     window.debounce.setDebounce(window.renderPics(newPics));
     sortingClass.classList.add('img-filters__button--active');
   };
 
   var popularChangeHandler = function () {
-    newFunc(sortingPopular, popular);
+    sortPhotos(sortingPopular, popular);
   };
 
   var discussedChangeHandler = function () {
-    newFunc(sortingDiscussed, discusssed);
+    sortPhotos(sortingDiscussed, discussed);
   };
 
   var randomChangeHandler = function () {
-    newFunc(sortingRandom, random);
+    sortPhotos(sortingRandom, random);
   };
 
   popular.addEventListener('click', popularChangeHandler);
-  discusssed.addEventListener('click', discussedChangeHandler);
+  discussed.addEventListener('click', discussedChangeHandler);
   random.addEventListener('click', randomChangeHandler);
 
 })();

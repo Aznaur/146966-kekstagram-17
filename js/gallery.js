@@ -31,8 +31,8 @@
   };
 
   var successHandler = function (data) {
-    window.photosy = data.slice(0);
-    window.renderPics(window.photosy);
+    window.photos = data.slice(0);
+    window.renderPics(window.photos);
   };
 
   window.load(successHandler);
@@ -41,7 +41,7 @@
   // --------------------------------
   var bigPicture = document.querySelector('.big-picture');
   var bodyContainer = document.querySelector('body');
-  var clouseBigPicture = bigPicture.querySelector('.big-picture__cancel');
+  var closeBigPicture = bigPicture.querySelector('.big-picture__cancel');
   var socialCommentsLoader = bigPicture.querySelector('.social__comments-loader');
   var shownCommentsCount = bigPicture.querySelector('.shown-comments-count');
 
@@ -54,7 +54,7 @@
     bigPicture.querySelector('.likes-count').textContent = photo.likes;
     bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
     bigPicture.querySelector('.social__caption').textContent = photo.description;
-    document.addEventListener('keydown', onPicturClousedEscPress);
+    document.addEventListener('keydown', onPicturClosedEscPress);
 
     var commentTemplate = bigPicture.querySelector('.social__comment');
     bigPicture.querySelector('.social__comments').innerHTML = '';
@@ -96,20 +96,20 @@
 
   // Модуль закрытия большой фотографии
   // ----------------------------------
-  var onPicturClousedEscPress = function (evt) {
+  var onPicturClosedEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      clousePopupBigPicture();
+      closePopupBigPicture();
     }
   };
 
-  var clousePopupBigPicture = function () {
+  var closePopupBigPicture = function () {
     bigPicture.classList.add('hidden');
-    document.removeEventListener('keydown', onPicturClousedEscPress);
+    document.removeEventListener('keydown', onPicturClosedEscPress);
     bodyContainer.classList.remove('modal-open');
   };
 
-  clouseBigPicture.addEventListener('click', function () {
-    clousePopupBigPicture();
+  closeBigPicture.addEventListener('click', function () {
+    closePopupBigPicture();
   });
 
 

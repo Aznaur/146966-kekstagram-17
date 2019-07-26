@@ -4,9 +4,9 @@
   var uploadFile = document.querySelector('#upload-file');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
-  var comm = document.querySelector('.text__description');
-  var hashTagInput = document.querySelector('.text__hashtags');
-  var submitButton = document.querySelector('.img-upload__submit');
+  var comm = imgUploadOverlay.querySelector('.text__description');
+  var hashTagInput = imgUploadOverlay.querySelector('.text__hashtags');
+  var submitButton = imgUploadOverlay.querySelector('.img-upload__submit');
   var form = document.querySelector('.img-upload__form');
   var bodyContainer = document.querySelector('body');
   var onImgUploadEscPress = function (evt) {
