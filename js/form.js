@@ -108,7 +108,7 @@
 
 
   var scaleOut = function () {
-    var presentValue = parseInt(controlValue.value);
+    var presentValue = parseInt(controlValue.value, 10);
     if (presentValue > MIN_SCALE) {
       presentValue = presentValue - STEP;
       controlValue.setAttribute('value', presentValue + '%');
@@ -117,7 +117,7 @@
   };
 
   var scaleUp = function () {
-    var presentValue = parseInt(controlValue.value);
+    var presentValue = parseInt(controlValue.value, 10);
     if (presentValue < MAX_SCALE) {
       presentValue = presentValue + STEP;
       controlValue.setAttribute('value', presentValue + '%');
