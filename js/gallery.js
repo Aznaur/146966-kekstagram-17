@@ -64,7 +64,7 @@
     renderComments(photo.comments, from, to, commentTemplate);
 
     socialCommentsLoader.addEventListener('click', function () {
-      var from = to;
+      from = to;
       to = Math.min(from + 5, photo.comments.length);
       renderComments(photo.comments, from, to, commentTemplate);
     });
