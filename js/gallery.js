@@ -2,12 +2,11 @@
 (function () {
   var picturesElement = document.querySelector('.pictures');
   var imgFilters = document.querySelector('.img-filters');
-  var ESC_KEYCODE = 27;
   var pictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 
-  window.createPhotoElement = function (photo, index) {
+  var createPhotoElement = function (photo, index) {
     var photoElement = pictureTemplate.cloneNode(true);
     photoElement.href = photo.url;
     photoElement.querySelector('.picture__img').src = photo.url;
@@ -24,7 +23,7 @@
   window.renderPics = function (data) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(window.createPhotoElement(data[i], i));
+      fragment.appendChild(createPhotoElement(data[i], i));
     }
     picturesElement.appendChild(fragment);
     imgFilters.classList.remove('img-filters--inactive');
@@ -32,10 +31,10 @@
 
   var successHandler = function (data) {
     window.photos = data.slice(0);
-    window.renderPics(window.photos);
+    window.renderPics(photos);
   };
 
-  window.load(successHandler);
+  window.backend.sendFromServer(successHandler);
 
   // Модуль показа большой фотографии
   // --------------------------------
@@ -97,7 +96,7 @@
   // Модуль закрытия большой фотографии
   // ----------------------------------
   var onPicturClosedEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.utilities.escKeykode) {
       closePopupBigPicture();
     }
   };
@@ -112,6 +111,9 @@
     closePopupBigPicture();
   });
 
+  window.gallery = {
+    renderPhoto: renderPics
+  };
 
 })();
 
