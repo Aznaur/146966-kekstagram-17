@@ -31,7 +31,7 @@
 
   var successHandler = function (data) {
     window.photos = data.slice(0);
-    window.renderPics(photos);
+    window.renderPics(window.photos);
   };
 
   window.backend.sendFromServer(successHandler);
@@ -110,10 +110,6 @@
   closeBigPicture.addEventListener('click', function () {
     closePopupBigPicture();
   });
-
-  window.gallery = {
-    renderPhoto: renderPics
-  };
 
 })();
 

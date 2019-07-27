@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var VALUE_CONST = 20;
+  var VALUE_CONST = 100;
   var WIDTH_RANGE = 453;
   var STEP = 25;
   var MIN_SCALE = 25;
@@ -26,7 +26,7 @@
     if (imgPreview) {
       imgPreview.classList.add(control.dataset.filter);
     }
-  }
+  };
 
   var getFilterValue = function (constValue, percent) {
     if (percent) {
@@ -84,7 +84,7 @@
   window.setFilterDefault = function () {
     effectControl.style.left = WIDTH_RANGE + 'px';
     effectControlBar.style.width = WIDTH_RANGE + 'px';
-    effectValue.value = 100;
+    effectValue.value = VALUE_CONST;
   };
 
   function clickControl(control) {

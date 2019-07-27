@@ -95,19 +95,19 @@
   // Назначение класса .invalid
   var setInvalidClass = function (element) {
     element.classList.add('invalid');
-  }
+  };
 
   // Снятие класса .invalid
   var unsetInvalidClass = function (element) {
     element.classList.remove('invalid');
-  }
+  };
 
   // Клик на кнопке отправки формы
   var onSubmitClick = function () {
     unsetInvalidClass(hashTagInput);
     hashTagInput.setCustomValidity('');
     checkHashTagsValidity();
-  }
+  };
 
   // Чистка хэш-тегов от лишних пробелов
   var trimHashTags = function (array) {
@@ -116,7 +116,7 @@
     });
     hashTagInput.value = array.join(HASH_TAGS_VALIDATION.separator);
     return array;
-  }
+  };
 
   // Валидация строки с хэш-тегами
   var checkHashTagsValidity = function () {
@@ -161,7 +161,7 @@
       setInvalidClass(hashTagInput);
       hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.maxCount);
     }
-  }
+  };
 
 
   var errorTemplate = document.querySelector('#error')

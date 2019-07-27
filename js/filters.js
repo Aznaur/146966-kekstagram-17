@@ -26,24 +26,24 @@
   // Сортировка по популярности
   var sortingPopular = function (a, b) {
     return b - a;
-  }
+  };
 
   // Сортировка по кол-ву комментариев
   var sortingDiscussed = function (a, b) {
     return b.comments.length - a.comments.length;
-  }
+  };
 
   // Сортировка в случайном порядке
   var sortingRandom = function () {
     return Math.random() - 0.5;
-  }
+  };
 
   var sortPhotos = function (sortingFunc, sortingClass, endSortPhotos) {
     removePhoto();
     removeActiveFilter();
     var newPics = window.photos.slice().sort(sortingFunc);
     if (endSortPhotos) {
-      var newPics = window.photos.sort(sortingFunc).slice(0, endSortPhotos);
+      newPics = window.photos.sort(sortingFunc).slice(0, endSortPhotos);
     }
     window.utilities.setDebounce(window.renderPics(newPics));
     sortingClass.classList.add('img-filters__button--active');
