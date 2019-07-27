@@ -1,16 +1,18 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var uploadFile = document.querySelector('#upload-file');
+  var effectsPreviews = document.querySelectorAll('.effects__preview');
+  var imgUploadPreview = document.querySelector('.img-upload__preview img');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
-  var comm = imgUploadOverlay.querySelector('.text__description');
+  var comment = imgUploadOverlay.querySelector('.text__description');
   var hashTagInput = imgUploadOverlay.querySelector('.text__hashtags');
   var submitButton = imgUploadOverlay.querySelector('.img-upload__submit');
   var form = document.querySelector('.img-upload__form');
   var bodyContainer = document.querySelector('body');
   var onImgUploadEscPress = function (evt) {
-    if (comm !== document.activeElement && evt.keyCode === ESC_KEYCODE && hashTagInput !== document.activeElement) {
+    if (comment !== document.activeElement && evt.keyCode === window.utilities.escKeykode && hashTagInput !== document.activeElement) {
       closePopup();
     }
   };
@@ -29,12 +31,28 @@
     bodyContainer.classList.remove('modal-open');
     uploadFile.value = '';
     hashTagInput.value = '';
-    comm.value = '';
+    comment.value = '';
     submitButton.removeEventListener('click', onSubmitClick);
     form.removeEventListener('submit', onFormSubmit);
   };
 
   uploadFile.addEventListener('change', function () {
+    var file = uploadFile.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        for (var i = 0; i < effectsPreviews.length; i++) {
+          effectsPreviews[i].style.backgroundImage = 'url(' + reader.result + ')';
+        }
+        imgUploadPreview.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
     openPopup();
   });
 
@@ -60,7 +78,7 @@
   };
 
   // Проверка, что все элементы в массиве уникальны
-  function isUniqElementsInArray(rawArray) {
+  var isUniqElementsInArray = function (rawArray) {
     var isUniq = true;
     var array = rawArray.map(function (elem) {
       return elem.toLowerCase();
@@ -72,44 +90,44 @@
       }
     }
     return isUniq;
-  }
+  };
 
   // Назначение класса .invalid
-  function setInvalidClass(element) {
+  var setInvalidClass = function (element) {
     element.classList.add('invalid');
-  }
+  };
 
   // Снятие класса .invalid
-  function unsetInvalidClass(element) {
+  var unsetInvalidClass = function (element) {
     element.classList.remove('invalid');
-  }
+  };
 
   // Клик на кнопке отправки формы
-  function onSubmitClick() {
+  var onSubmitClick = function () {
     unsetInvalidClass(hashTagInput);
     hashTagInput.setCustomValidity('');
     checkHashTagsValidity();
-  }
+  };
 
   // Чистка хэш-тегов от лишних пробелов
-  function trimHashTags(array) {
+  var trimHashTags = function (array) {
     array = array.filter(function (it) {
       return it !== '';
     });
     hashTagInput.value = array.join(HASH_TAGS_VALIDATION.separator);
     return array;
-  }
+  };
 
   // Валидация строки с хэш-тегами
-  function checkHashTagsValidity() {
+  var checkHashTagsValidity = function () {
     var rawArray = hashTagInput.value.split(HASH_TAGS_VALIDATION.separator);
-    window.arrayOfValues = trimHashTags(rawArray);
-    if (window.arrayOfValues.length === 0) {
+    var arrayOfValues = trimHashTags(rawArray);
+    if (!arrayOfValues.length) {
       return;
     }
 
-    window.arrayOfValues.forEach(function (it) {
-      window.hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
+    arrayOfValues.forEach(function (it) {
+      var hashSymbols = it.match(HASH_TAGS_VALIDATION.regExpFirstChar);
 
       if (it.length >= HASH_TAGS_VALIDATION.maxOneTagLength) {
         setInvalidClass(hashTagInput);
@@ -123,27 +141,27 @@
         return;
       }
 
-      var isTagContainOnlyHash = window.arrayOfValues.some(function (item) {
+      var isTagContainOnlyHash = arrayOfValues.some(function (item) {
         return item === '#';
       });
 
-      if (window.hashSymbols.length !== 1 || isTagContainOnlyHash) {
+      if (hashSymbols.length !== 1 || isTagContainOnlyHash) {
         setInvalidClass(hashTagInput);
         hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.hashTagEmpty);
         return;
       }
     });
 
-    if (!isUniqElementsInArray(window.arrayOfValues)) {
+    if (!isUniqElementsInArray(arrayOfValues)) {
       setInvalidClass(hashTagInput);
       hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.doubleTag);
     }
 
-    if (window.arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
+    if (arrayOfValues.length > HASH_TAGS_VALIDATION.maxAmount) {
       setInvalidClass(hashTagInput);
       hashTagInput.setCustomValidity(HASH_TAGS_VALIDATION.error.maxCount);
     }
-  }
+  };
 
 
   var errorTemplate = document.querySelector('#error')
@@ -153,44 +171,44 @@
     .content
     .querySelector('.success');
 
-  window.errorMessage = errorTemplate.cloneNode(true);
-  window.successMessage = successTemplate.cloneNode(true);
+  var errorMessage = errorTemplate.cloneNode(true);
+  var successMessage = successTemplate.cloneNode(true);
 
-  var mainTeg = document.querySelector('main');
-  var buttonCloseMessage = window.successMessage.querySelector('.success__button');
-  var buttonRepeat = window.errorMessage.querySelector('.error__button');
+  var mainTag = document.querySelector('main');
+  var buttonCloseMessage = successMessage.querySelector('.success__button');
+  var buttonRepeat = errorMessage.querySelector('.error__button');
 
   // Функция сообщение об ошибки
-  var displayErrorMessage = function (message) {
-    window.errorMessage.querySelector('.error__title').textContent = message;
-    mainTeg.appendChild(window.errorMessage);
+  window.displayErrorMessage = function (message) {
+    errorMessage.querySelector('.error__title').textContent = message;
+    mainTag.appendChild(errorMessage);
     buttonRepeat.addEventListener('click', function () {
       closePopup();
-      window.errorMessage.remove();
+      errorMessage.remove();
     });
-    window.errorMessage.addEventListener('click', function () {
-      window.errorMessage.remove();
+    errorMessage.addEventListener('click', function () {
+      errorMessage.remove();
       closePopup();
     });
   };
 
   // Функция сообщение об успешной загрузки
   var displaySuccessTemplate = function () {
-    mainTeg.appendChild(window.successMessage);
+    mainTag.appendChild(successMessage);
     buttonCloseMessage.addEventListener('click', function () {
-      window.successMessage.remove();
+      successMessage.remove();
     });
-    window.successMessage.addEventListener('click', function () {
-      window.successMessage.remove();
+    successMessage.addEventListener('click', function () {
+      successMessage.remove();
     });
   };
 
   function onFormSubmit(evt) {
     evt.preventDefault();
-    window.save(new FormData(form), function () {
+    window.backend.sendToServer(new FormData(form), function () {
       closePopup();
       displaySuccessTemplate();
-    }, displayErrorMessage);
+    }, window.displayErrorMessage);
   }
 
 })();

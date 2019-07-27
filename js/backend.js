@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   // Отправка данных на сервер
-  window.save = function (data, onLoad, onError) {
+  var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.timeout = 50000;
     xhr.open('POST', 'https://js.dump.academy/kekstagram');
@@ -26,7 +26,7 @@
 
   var URL = 'https://js.dump.academy/kekstagram/data';
   // Получение данных от сервера
-  window.load = function (onLoad, onError) {
+  var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = 50000;
@@ -47,5 +47,11 @@
     });
     xhr.send();
   };
+
+  window.backend = {
+    sendToServer: save,
+    sendFromServer: load
+  };
+
 })();
 

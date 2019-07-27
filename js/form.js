@@ -1,32 +1,32 @@
 'use strict';
 (function () {
-  var VALUE_CONST = 20;
+  var VALUE_CONST = 100;
   var WIDTH_RANGE = 453;
   var STEP = 25;
   var MIN_SCALE = 25;
   var MAX_SCALE = 100;
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  var effectsRadio = imgUploadOverlay.querySelectorAll('.effects__radio');
+  var effectsRadios = imgUploadOverlay.querySelectorAll('.effects__radio');
   var imgPreview = imgUploadOverlay.querySelector('.img-upload__preview');
   var effectControl = document.querySelector('.effect-level__pin');
   var effectControlBar = document.querySelector('.effect-level__depth');
   var effectValue = document.querySelector('.effect-level__value');
   var controlPin = document.querySelector('.img-upload__effect-level');
   controlPin.style.display = 'none';
-  for (var k = 0; k < effectsRadio.length; k++) {
-    clickControl(effectsRadio[k]);
+  for (var k = 0; k < effectsRadios.length; k++) {
+    clickControl(effectsRadios[k]);
   }
 
-  function toggleFilter(control) {
-    for (var j = 0; j < effectsRadio.length; j++) {
+  var toggleFilter = function (control) {
+    for (var j = 0; j < effectsRadios.length; j++) {
       imgPreview.style.filter = '';
-      imgPreview.classList.remove(effectsRadio[j].dataset.filter);
+      imgPreview.classList.remove(effectsRadios[j].dataset.filter);
     }
 
     if (imgPreview) {
       imgPreview.classList.add(control.dataset.filter);
     }
-  }
+  };
 
   var getFilterValue = function (constValue, percent) {
     if (percent) {
@@ -39,32 +39,32 @@
     {
       class: 'effects__preview--chrome',
       property: 'grayscale',
-      filter: function (vali) {
-        return this.property + '(' + getFilterValue(vali, 100) + ')';
+      filter: function (value) {
+        return this.property + '(' + getFilterValue(value, 100) + ')';
       },
       units: ''
     },
     {
       class: 'effects__preview--sepia',
       property: 'sepia',
-      filter: function (vali) {
-        return this.property + '(' + getFilterValue(vali, 100) + ')';
+      filter: function (value) {
+        return this.property + '(' + getFilterValue(value, 100) + ')';
       },
       units: ''
     },
     {
       class: 'effects__preview--marvin',
       property: 'invert',
-      filter: function (vali) {
-        return this.property + '(' + getFilterValue(vali) + this.units + ')';
+      filter: function (value) {
+        return this.property + '(' + getFilterValue(value) + this.units + ')';
       },
       units: '%'
     },
     {
       class: 'effects__preview--phobos',
       property: 'blur',
-      filter: function (vali) {
-        return this.property + '(' + getFilterValue(vali, 100) * this.maxValue + this.units + ')';
+      filter: function (value) {
+        return this.property + '(' + getFilterValue(value, 100) * this.maxValue + this.units + ')';
       },
       maxValue: 3,
       units: 'px'
@@ -72,8 +72,8 @@
     {
       class: 'effects__preview--heat',
       property: 'brightness',
-      filter: function (vali) {
-        return this.property + '(' + getFilterValue(vali, 100) * this.maxValue + ')';
+      filter: function (value) {
+        return this.property + '(' + getFilterValue(value, 100) * this.maxValue + ')';
       },
       maxValue: 3,
       units: ''
@@ -82,8 +82,8 @@
 
 
   window.setFilterDefault = function () {
-    effectControl.style.left = VALUE_CONST / 100 * WIDTH_RANGE + 'px';
-    effectControlBar.style.width = VALUE_CONST / 100 * WIDTH_RANGE + 'px';
+    effectControl.style.left = WIDTH_RANGE + 'px';
+    effectControlBar.style.width = WIDTH_RANGE + 'px';
     effectValue.value = VALUE_CONST;
   };
 
