@@ -90,7 +90,7 @@
       }
     }
     return isUniq;
-  }
+  };
 
   // Назначение класса .invalid
   var setInvalidClass = function (element) {
