@@ -1,10 +1,16 @@
 'use strict';
 (function () {
-  // Отправка данных на сервер
-  var save = function (data, onLoad, onError) {
+  var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
+  var URL_SAVE = 'https://js.dump.academy/kekstagram';
+  var METHOD_POST = 'POST';
+  var METHOD_GET = 'GET';
+  var typeRespons = 'json';
+
+  var createRequest = function (onLoad, onError, url, method, data) {
     var xhr = new XMLHttpRequest();
+    xhr.responseType = typeRespons;
     xhr.timeout = 50000;
-    xhr.open('POST', 'https://js.dump.academy/kekstagram');
+    xhr.open(method, url);
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -19,38 +25,19 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
-    xhr.send(data);
-  };
-
-
-  var URL = 'https://js.dump.academy/kekstagram/data';
-  // Получение данных от сервера
-  var load = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = 50000;
-    xhr.open('GET', URL);
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError('Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
-    xhr.send();
+    if (data) {
+      xhr.send(data);
+    } else {
+      xhr.send();
+    }
   };
 
   window.backend = {
-    sendToServer: save,
-    sendFromServer: load
+    sendToServer: createRequest,
+    urlSave: URL_SAVE,
+    urlLoad: URL_LOAD,
+    methodPost: METHOD_POST,
+    methodGet: METHOD_GET
   };
 
 })();

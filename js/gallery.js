@@ -34,7 +34,7 @@
     window.renderPics(window.photos);
   };
 
-  window.backend.sendFromServer(successHandler);
+  window.backend.sendToServer(successHandler, window.displayErrorMessage, window.backend.urlLoad, window.backend.methodGet);
 
   // Модуль показа большой фотографии
   // --------------------------------

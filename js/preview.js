@@ -205,10 +205,10 @@
 
   function onFormSubmit(evt) {
     evt.preventDefault();
-    window.backend.sendToServer(new FormData(form), function () {
+    window.backend.sendToServer(function () {
       closePopup();
       displaySuccessTemplate();
-    }, window.displayErrorMessage);
+    }, window.displayErrorMessage, window.backend.urlSave, window.backend.methodPost, new FormData(form));
   }
 
 })();
