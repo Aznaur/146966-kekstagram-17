@@ -1,6 +1,6 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
-* Студент: [Азнаур Хапчаев](https://up.htmlacademy.ru/javascript/17/user/146966).
+* Студент: [Азнаур](https://up.htmlacademy.ru/javascript/17/user/146966).
 * Наставник: [Артем Черкасов](https://htmlacademy.ru/profile/id530727).
 
 ---
